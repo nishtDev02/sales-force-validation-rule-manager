@@ -5,7 +5,14 @@ const axios = require("axios");
 require("dotenv").config({ path: "../.env" });
 
 const app = express();
-app.use(cors({ origin: "https://sales-force-validation-rule-manager.vercel.app" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://sales-force-validation-rule-manager.vercel.app",
+    ],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -62,9 +69,9 @@ app.get("/api/validation-rules", async (req, res) => {
 app.patch("/api/validation-rules/:id", async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const instanceUrl = req.headers['x-instance-url'];
-    const {id} = req.params;
-    const {isActive} = req.body;
+    const instanceUrl = req.headers["x-instance-url"];
+    const { id } = req.params;
+    const { isActive } = req.body;
 
     // first fetch exisiting metadata
     const exisitingRule = await axios.get(
@@ -72,24 +79,24 @@ app.patch("/api/validation-rules/:id", async (req, res) => {
       {
         headers: {
           Authorization: token,
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       }
-    )
+    );
 
     const exisitingMetadata = exisitingRule.data.Metadata;
 
     // merge all the data and update
     await axios.patch(
-        `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${id}`,
-        { Metadata: { ...exisitingMetadata, active: isActive } },
-        {
-            headers: {
-                Authorization: token,
-                'Content-Type': 'application/json'
-            }
-        }
-    )
+      `${instanceUrl}/services/data/v59.0/tooling/sobjects/ValidationRule/${id}`,
+      { Metadata: { ...exisitingMetadata, active: isActive } },
+      {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     res.json({ success: true });
   } catch (error) {
