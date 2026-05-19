@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:4000";
+const BACKEND_URL = "https://sales-force-validation-rule-manager.onrender.com";
 
 const getHeaders = () => {
   const token = localStorage.getItem("sf_access_token");

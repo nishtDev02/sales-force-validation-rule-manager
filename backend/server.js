@@ -5,7 +5,7 @@ const axios = require("axios");
 require("dotenv").config({ path: "../.env" });
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "https://sales-force-validation-rule-manager.vercel.app" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
