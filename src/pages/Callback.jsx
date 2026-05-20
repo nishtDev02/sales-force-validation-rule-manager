@@ -17,7 +17,7 @@ const Callback = () => {
 
     const fetchToken = async () => {
       try {
-        const response = await axios.post("http://localhost:4000/auth/token", {
+        const response = await axios.post("https://sales-force-validation-rule-manager.onrender.com/auth/token", {
           code: code,
         });
 
